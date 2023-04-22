@@ -1,0 +1,60 @@
+#include <iostream>
+#include <time.h>
+using namespace std;
+
+int main(){ //asignando variables
+  srand((unsigned)time(NULL));
+  int c = 5; //columnas
+  int f = 5;// filas
+  int v = 3;// tamaño de kennel
+  int A[c][f];
+  int KA[v] = {1,2,1}; 
+  int *ka = KA;
+  int fs = sizeof(A) / sizeof(*A);
+  int tk = sizeof(KA) / sizeof(*KA);
+  int OP[c][v]; //array para rellenar
+  int *pp = *OP; //puntero a array
+
+  for(int *i = *A; i < *(A + c); i++){ //rellena la matriz con numeros aleatorios
+    *i = rand()%10;
+    for(int *j = *A+1; j < *(A + f); j++){
+      *j = rand()%10;
+    }
+  }
+  int *p = *A;
+  for(int i = 0; i<c;i++){ // la recorre e imprime
+    for(int j = 0; j<f;j++){
+      cout<< *(p + i * f + j)<<" ";
+    }
+    cout<<endl;
+  }
+  //Impresión del kennel
+  int *q = KA; 
+  cout<<"Kennel seleccionado: "<<endl;
+  for(int i = 0; i<v; i++){
+    cout<<*(q+i)<<"\n";
+  }
+  cout<<"Empezamos la operacion Convolucion separable 2D: "<<endl;
+  //operaciones para el op
+  int suma = 0;
+  for(int i=0;i <= fs - tk;i++){
+    for(int *ptr = *A+(fs*i);ptr!=*A + fs*(i+1);ptr++){
+      if((ptr-*A)%5 == 0){
+      }
+      for(int j=0;j < tk ; j++){
+        suma = suma + (*(ptr+j*fs) * *(ka+j));
+      }    
+      *pp = suma;
+      pp++;
+      suma = 0; 
+    }
+  }
+  //impresion del output
+  int top = sizeof(OP)/ sizeof(**OP);
+  for(int*ppp = *OP;ppp!=*OP + top;ppp++){
+    if((ppp-*OP)%5 == 0){
+      cout << '\n';
+    }
+    cout << *ppp << " ";
+  }
+}
